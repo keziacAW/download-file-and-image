@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CPF Projection - Test Download</title>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: Arial, sans-serif; background: #f5f5f5; }
+    .header { display: flex; justify-content: space-between; align-items: center; padding: 12px 20px; background: #fff; border-bottom: 1px solid #eee; }
+    .header .logo { font-weight: bold; font-size: 14px; color: #1a3c6e; }
+    .header .actions { display: flex; gap: 8px; }
+    .header .actions a { font-size: 12px; color: #1a3c6e; text-decoration: none; padding: 6px 12px; border: 1px solid #1a3c6e; border-radius: 4px; }
+
+    #capture { background: #fff; max-width: 600px; margin: 0 auto; padding: 20px; }
+
+    h2 { text-align: center; color: #1a3c6e; font-size: 16px; margin-bottom: 16px; }
+    h3 { color: #1a3c6e; font-size: 13px; margin: 16px 0 8px 0; }
+
+    .date-row { text-align: center; font-size: 12px; color: #555; margin-bottom: 12px; }
+
+    table { width: 100%; border-collapse: collapse; margin-bottom: 4px; font-size: 12px; }
+    table th, table td { padding: 8px 10px; text-align: center; }
+    table th { background: #f0f4f8; color: #555; font-weight: normal; font-size: 11px; }
+
+    .total-row td { background: #1a3c6e; color: #fff; font-weight: bold; font-size: 14px; }
+    .sub-row td { background: #e8edf3; color: #333; font-size: 11px; }
+
+    .green-row td { background: #4caf50; color: #fff; font-weight: bold; }
+    .blue-row td { background: #2196f3; color: #fff; font-weight: bold; }
+
+    .note { font-size: 9px; color: #999; margin-bottom: 12px; display: block; }
+
+    .bar-chart { margin: 16px 0; }
+    .bar-item { display: flex; align-items: center; margin-bottom: 6px; font-size: 11px; }
+    .bar-label { width: 60px; text-align: right; padding-right: 8px; color: #555; }
+    .bar { height: 20px; border-radius: 3px; min-width: 2px; }
+    .bar-value { padding-left: 6px; font-size: 10px; color: #555; }
+    .bar-brs { background: #4caf50; }
+    .bar-frs { background: #2196f3; }
+    .bar-ers { background: #1a3c6e; }
+
+    .eligibility { margin: 12px 0; font-size: 11px; }
+    .eligibility table td { text-align: left; padding: 4px 10px; }
+    .eligibility .yes { color: #4caf50; font-weight: bold; }
+
+    .payout-table td { font-size: 12px; }
+
+    .download-buttons { display: flex; gap: 12px; justify-content: center; max-width: 600px; margin: 20px auto; }
+    .download-buttons button {
+      display: flex; align-items: center; gap: 6px;
+      padding: 10px 20px; border: 1px solid #1a3c6e; border-radius: 6px;
+      background: #fff; color: #1a3c6e; font-size: 13px; cursor: pointer;
+      transition: background 0.2s;
+    }
+    .download-buttons button:hover { background: #e8edf3; }
+    .download-buttons button:active { background: #d0d8e3; }
+  </style>
+</head>
+<body>
+
+  <div id="capture">
+    <h2>Step 4: CPF Projection</h2>
+    <div class="date-row">21 March 2026</div>
+
+    <h3>Your CPF Savings On</h3>
+    <table>
+      <tr class="total-row"><td colspan="3">$85,000</td></tr>
+      <tr class="sub-row">
+        <td>Ordinary Account (OA)</td>
+        <td>Special Account (SA)</td>
+        <td>Medisave Account (MA)</td>
+      </tr>
+      <tr><td>$35,000</td><td>$20,000</td><td>$30,000</td></tr>
+    </table>
+
+    <h3>Your Projected Savings at Age 55</h3>
+    <table>
+      <tr class="green-row"><td>$401,227</td><td>$321,408</td><td>$275,000</td></tr>
+      <tr class="sub-row">
+        <td>Ordinary Account (OA)</td>
+        <td>Special Account (SA)</td>
+        <td>Medisave Account (MA)</td>
+      </tr>
+    </table>
+    <span class="note">*Assuming Basic + MediSave sum (BMS) to be computed at 3.5% annually</span>
+
+    <h3>Projected CPF Retirement Sums at Age 55</h3>
+    <table>
+      <tr>
+        <td><strong>$237,000</strong></td>
+        <td><strong>$434,079</strong></td>
+        <td><strong>$908,140</strong></td>
+      </tr>
+      <tr class="sub-row">
+        <td>Basic Retirement Sum (BRS)</td>
+        <td>Full Retirement Sum (FRS)</td>
+        <td>Enhanced Retirement Sum (ERS)</td>
+      </tr>
+    </table>
+    <span class="note">*Assuming Basic + Retirement sum (BRS) to be computed at 3.5% annually</span>
+
+    <h3>Projected CPF Retirement Sums at Age 65</h3>
+    <table>
+      <tr>
+        <td><strong>$237,000</strong></td>
+        <td><strong>$404,079</strong></td>
+        <td><strong>$1,181,021</strong></td>
+      </tr>
+      <tr class="sub-row">
+        <td>Basic Retirement Sum (BRS)</td>
+        <td>Full Retirement Sum (FRS)</td>
+        <td>Enhanced Retirement Sum (ERS)</td>
+      </tr>
+    </table>
+    <span class="note">*Assuming Basic + Retirement sum (BRS) to be computed at 3.5% annually</span>
+
+    <h3>Options for Retirement Sums</h3>
+    <div class="bar-chart">
+      <div class="bar-item">
+        <span class="bar-label">BRS</span>
+        <div class="bar bar-brs" style="width: 25%;"></div>
+        <span class="bar-value">$237,000</span>
+      </div>
+      <div class="bar-item">
+        <span class="bar-label">FRS</span>
+        <div class="bar bar-frs" style="width: 50%;"></div>
+        <span class="bar-value">$434,079</span>
+      </div>
+      <div class="bar-item">
+        <span class="bar-label">ERS</span>
+        <div class="bar bar-ers" style="width: 100%;"></div>
+        <span class="bar-value">$908,140</span>
+      </div>
+    </div>
+
+    <div class="eligibility">
+      <strong>Eligibility</strong>
+      <table>
+        <tr><td>BRS</td><td class="yes">YES</td></tr>
+        <tr><td>FRS</td><td class="yes">YES</td></tr>
+        <tr><td>ERS</td><td class="yes">YES</td></tr>
+      </table>
+    </div>
+
+    <h3>Estimated CPF Life Monthly Payouts</h3>
+    <table class="payout-table">
+      <tr class="green-row"><td>$1,304</td><td>$3,497</td><td>$6,791</td></tr>
+      <tr class="sub-row">
+        <td>Basic Retirement Sum (BRS)</td>
+        <td>Full Retirement Sum (FRS)</td>
+        <td>Enhanced Retirement Sum (ERS)</td>
+      </tr>
+    </table>
+    <span class="note">*Assuming Basic + Retirement sum (BRS) to be computed at 3.5% annually</span>
+  </div>
+
+  <div class="download-buttons">
+    <button onclick="saveAsImage()">Save as Image</button>
+    <button onclick="saveAsPDF()">Save as PDF</button>
+  </div>
+
+  <script>
+    function saveAsImage() {
+      var el = document.getElementById('capture');
+      html2canvas(el, { scale: 2, useCORS: true }).then(function(canvas) {
+        var link = document.createElement('a');
+        link.download = 'cpf-projection.png';
+        link.href = canvas.toDataURL('image/png');
+        link.click();
+      });
+    }
+
+    function saveAsPDF() {
+      var el = document.getElementById('capture');
+      html2canvas(el, { scale: 2, useCORS: true }).then(function(canvas) {
+        var imgData = canvas.toDataURL('image/png');
+        var pdf = new jspdf.jsPDF('p', 'mm', 'a4');
+        var pageWidth = pdf.internal.pageSize.getWidth();
+        var imgWidth = pageWidth - 20;
+        var imgHeight = (canvas.height * imgWidth) / canvas.width;
+        pdf.addImage(imgData, 'PNG', 10, 10, imgWidth, imgHeight);
+        pdf.save('cpf-projection.pdf');
+      });
+    }
+  </script>
+</body>
+</html>
